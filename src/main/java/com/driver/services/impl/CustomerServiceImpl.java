@@ -30,14 +30,19 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void register(Customer customer) {
 		//Save the customer in database
+		//Customer customer1=new Customer(customer.getMobile(), customer.getPassword());
+		//customerRepository2.save(customer1);
 		customerRepository2.save(customer);
 	}
 
 	@Override
 	public void deleteCustomer(Integer customerId) {
 		// Delete customer without using deleteById function
-		customerRepository2.deleteById(customerId);
+		//	if(customerRepository2.findById(customerId).isPresent()){
+		Customer customer=customerRepository2.findById(customerId).get();
 
+		customerRepository2.delete(customer);
+		//}
 	}
 
 	@Override
@@ -75,13 +80,10 @@ public class CustomerServiceImpl implements CustomerService {
 		tripBooking.setDriver(driver);
 		tripBooking.setCustomer(customer);
 
-//
-
 		tripBookingRepository2.save(tripBooking);
 
 
 		return tripBooking;
-
 
 
 	}
@@ -89,12 +91,42 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void cancelTrip(Integer tripId){
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
+		//if(tripBookingRepository2.findById(tripId).isPresent()){
+
+		TripBooking tripBooking=tripBookingRepository2.findById(tripId).get();
+		tripBooking.setStatus(TripStatus.CANCELED);
+		tripBooking.setBill(0);
+
+
+
+		Driver driver=tripBooking.getDriver();
+		driver.getCab().setAvailable(true);
+
+		//driverRepository2.save(driver);
+
+
+		tripBookingRepository2.save(tripBooking);
+		//	}
+
 
 	}
 
 	@Override
 	public void completeTrip(Integer tripId){
 		//Complete the trip having given trip Id and update TripBooking attributes accordingly
+		if(tripBookingRepository2.findById(tripId).isPresent()){
+			TripBooking tripBooking=tripBookingRepository2.findById(tripId).get();
+			tripBooking.setStatus(TripStatus.COMPLETED);
+
+			Driver driver=tripBooking.getDriver();
+			driver.getCab().setAvailable(true);
+
+
+
+
+			tripBookingRepository2.save(tripBooking);
+
+		}
 
 	}
 }
