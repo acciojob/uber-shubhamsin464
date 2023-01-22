@@ -19,6 +19,14 @@ public class Driver {
     @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)
     private List<TripBooking> tripBookingList;
 
+    public Driver() {
+    }
+
+    public Driver(String mobile, String password) {
+       this.mobile=mobile;
+       this.password=password;
+    }
+
 
     public void setDriverId(int driverId) {
         this.driverId = driverId;
