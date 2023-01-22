@@ -19,6 +19,14 @@ public class TripBooking {
 
     private int bill;
 
+    public int getTripBookingId() {
+        return tripBookingId;
+    }
+
+    public void setTripBookingId(int tripBookingId) {
+        this.tripBookingId = tripBookingId;
+    }
+
     @ManyToOne
     @JoinColumn
     private Driver driver;
