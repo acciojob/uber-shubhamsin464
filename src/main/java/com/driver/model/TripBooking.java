@@ -2,6 +2,7 @@ package com.driver.model;
 
 import javax.persistence.*;
 
+@Entity
 public class TripBooking {
 
     @Id
@@ -19,27 +20,38 @@ public class TripBooking {
 
     private int bill;
 
+    @ManyToOne
+    @JoinColumn
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn
+    private Driver driver;
+
+    public TripBooking(String fromLocation, String toLocation, int distanceInKm, TripStatus tripStatus, int bill) {
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
+        this.distanceInKm = distanceInKm;
+        this.tripStatus = tripStatus;
+        this.bill = bill;
+    }
+
+    public TripBooking(String fromLocation, String toLocation, int distanceInKm, TripStatus tripStatus) {
+        this.fromLocation = fromLocation;
+        this.toLocation = toLocation;
+        this.distanceInKm = distanceInKm;
+        this.tripStatus = tripStatus;
+    }
+
+    public TripBooking() {
+    }
+
     public int getTripBookingId() {
         return tripBookingId;
     }
 
     public void setTripBookingId(int tripBookingId) {
         this.tripBookingId = tripBookingId;
-    }
-
-    @ManyToOne
-    @JoinColumn
-    private Driver driver;
-
-    @ManyToOne
-    @JoinColumn
-    private Customer customer;
-
-    public TripBooking(String fromLocation, String toLocation, int distanceInKm, TripStatus confirmed) {
-        this.fromLocation=fromLocation;
-        this.toLocation=toLocation;
-        this.distanceInKm=distanceInKm;
-        this.tripStatus=tripStatus;
     }
 
     public String getFromLocation() {
@@ -66,11 +78,11 @@ public class TripBooking {
         this.distanceInKm = distanceInKm;
     }
 
-    public TripStatus getTripStatus() {
+    public TripStatus getStatus() {
         return tripStatus;
     }
 
-    public void setTripStatus(TripStatus tripStatus) {
+    public void setStatus(TripStatus tripStatus) {
         this.tripStatus = tripStatus;
     }
 
@@ -82,19 +94,19 @@ public class TripBooking {
         this.bill = bill;
     }
 
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 }
